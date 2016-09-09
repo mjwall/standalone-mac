@@ -23,20 +23,22 @@ After building the jar, run the following from the project top level directory
   
 Your output should be something like the following
 
-    Starting a Mini Accumulo Cluster: instanceName: mini with rootPassword: secret
-    Temp dir is: /var/folders/cd/l8dpphgn3j1gfpr2gs6yb9vjjpd1pt/T/1473286430103-0
-    Monitor running at 0.0.0.0:53541
+
+    Starting a Mini Accumulo Cluster: instanceName: smac with rootPassword: secret
+    Temp dir is: /var/folders/cd/l8dpphgn3j1gfpr2gs6yb9vjjpd1pt/T/1473438202535-0
+    Zookeeper is: localhost:2181
+    Monitor running at: 0.0.0.0:56198
     Starting a shell
     
     Shell - Apache Accumulo Interactive Shell
-    -
+    - 
     - version: 1.8.0
-    - instance name: mini
-    - instance id: 9c97ad06-112e-453c-8892-074b83551162
-    -
+    - instance name: smac
+    - instance id: 02376280-2881-4c17-9091-aa23b8ee1238
+    - 
     - type 'help' for a list of available commands
-    -
-    root@mini>
+    - 
+    root@smac> exit
 
 #### Couple of things to note here.  
 - The temp dir is printed.  It will be deleted when you exit.  To make it persist

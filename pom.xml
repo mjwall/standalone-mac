@@ -8,8 +8,9 @@
   <name>standalone-mac</name>
   <description>Standalone Mini Accumulo Cluster</description>
   <properties>
-    <accumulo.instanceName>dashboard1</accumulo.instanceName>
+    <accumulo.instanceName>smac1</accumulo.instanceName>
     <accumulo.rootPassword>pass1</accumulo.rootPassword>
+    <accumulo.zookeeperPort>21881</accumulo.zookeeperPort>
     <dep.accumulo.version>1.8.0</dep.accumulo.version>
     <dep.commons-codec.version>1.4</dep.commons-codec.version>
     <dep.commons-collections.version>3.2.2</dep.commons-collections.version>
@@ -305,6 +306,7 @@
                     <argument>-DtempMiniDir=${project.build.directory}/mini</argument>
                     <argument>-DrootPassword=${accumulo.rootPassword}</argument>
                     <argument>-DinstanceName=${accumulo.instanceName}</argument>
+                    <argument>-DzookeeperPort=${accumulo.zookeeperPort}</argument>
                     <argument>com.mjwall.accumulo.StandaloneMAC</argument>
                   </arguments>
                 </configuration>

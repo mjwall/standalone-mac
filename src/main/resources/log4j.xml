@@ -33,6 +33,14 @@
      <level value="error"/>
      <appender-ref ref="console" />
   </logger>
+  <logger name="org.apache.accumulo.fate.zookeeper.ZooReader">
+     <level value="error"/>
+     <appender-ref ref="console" />
+  </logger>
+  <logger name="org.apache.accumulo.fate.zookeeper.Retry">
+     <level value="error"/>
+     <appender-ref ref="console" />
+  </logger>
 
   <logger name="org.apache.zookeeper">
      <level value="fatal"/>
@@ -44,6 +52,10 @@
      <appender-ref ref="console" />
   </logger>
   <logger name="org.apache.accumulo.tracer.ZooTraceClient">
+     <level value="info"/>
+     <appender-ref ref="console" />
+  </logger>
+  <logger name="org.apache.accumulo.fate.zookeeper.ZooSession">
      <level value="info"/>
      <appender-ref ref="console" />
   </logger>

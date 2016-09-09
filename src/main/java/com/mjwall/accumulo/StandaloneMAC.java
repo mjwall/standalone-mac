@@ -49,11 +49,8 @@ public class StandaloneMAC {
       }
 
       final String rootPassword = System.getProperty("rootPassword", "secret");
-      final String instanceName = System.getProperty("instanceName", "mini");
+      final String instanceName = System.getProperty("instanceName", "smac");
       final int zookeeperPort = Integer.parseInt(System.getProperty("zookeeperPort", "2181"));
-
-      System.out.println("Starting a Mini Accumulo Cluster: instanceName: " + instanceName + " with rootPassword: " + rootPassword);
-      System.out.println("Temp dir is: " + tempDir);
 
       MiniAccumuloConfigImpl config = new MiniAccumuloConfigImpl(tempDir, rootPassword);
       config.setInstanceName(instanceName);
@@ -85,10 +82,16 @@ public class StandaloneMAC {
           // e.printStackTrace();
         }
       }
+      
+      System.out.println("Starting a Mini Accumulo Cluster: instanceName: " + config.getInstanceName() + " with rootPassword: " + config.getRootPassword());
+      System.out.println("Temp dir is: " + config.getDir());
+      System.out.println("Zookeeper is: " + config.getZooKeepers());
+
+      
       if (monitorLocation == null) {
         System.err.println("Looks like the monitor was not started");
       } else {
-        System.out.println("Monitor running at " + monitorLocation);
+        System.out.println("Monitor running at: " + monitorLocation);
       }
 
       System.out.println("Starting a shell");
@@ -109,6 +112,7 @@ public class StandaloneMAC {
       try {
         cluster.stop();
         if (purgeTemp) {
+          Thread.sleep(3000);
           recursiveDelete(tempDir.toPath());
         }
       } catch (IOException | InterruptedException e) {
