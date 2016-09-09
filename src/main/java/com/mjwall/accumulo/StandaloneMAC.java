@@ -82,12 +82,12 @@ public class StandaloneMAC {
           // e.printStackTrace();
         }
       }
-      
-      System.out.println("Starting a Mini Accumulo Cluster: instanceName: " + config.getInstanceName() + " with rootPassword: " + config.getRootPassword());
-      System.out.println("Temp dir is: " + config.getDir());
-      System.out.println("Zookeeper is: " + config.getZooKeepers());
 
-      
+      System.out.println("Starting a Mini Accumulo Cluster: instanceName: " + cluster.getInstanceName() + " with rootPassword: "
+          + cluster.getConfig().getRootPassword());
+      System.out.println("Temp dir is: " + cluster.getConfig().getDir());
+      System.out.println("Zookeeper is: " + cluster.getZooKeepers());
+
       if (monitorLocation == null) {
         System.err.println("Looks like the monitor was not started");
       } else {
@@ -95,7 +95,8 @@ public class StandaloneMAC {
       }
 
       System.out.println("Starting a shell");
-      String[] shellArgs = new String[] {"-u", "root", "-p", rootPassword, "-z", instanceName, cluster.getZooKeepers()};
+      String[] shellArgs = new String[] {"-u", "root", "-p", cluster.getConfig().getRootPassword(), "-zi", cluster.getInstanceName(), "-zh",
+          cluster.getZooKeepers()};
       Shell shell = new Shell();
       shell.config(shellArgs);
       shell.start(); // this is the interactive
