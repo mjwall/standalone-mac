@@ -12,27 +12,30 @@ To build this standalone jar, run the following
 
     mvn clean package
     
-In the target directory, you will see a file named `standalone-mini-accumulo-cluster-0.0.1-SNAPSHOT.jar`.  That is the 
+In the target directory, you will see a file named `standalone-1.6.6-mac-shaded-0.0.1-SNAPSHOT.jar`.  That is the 
 executable jar, currently at 44M
 
 ## Running
 
 After building the jar, run the following from the project top level directory
 
-    java -jar target/standalone-mini-accumulo-cluster-0.0.1-SNAPSHOT.jar
+    java -jar target/standalone-1.6.6-mac-shaded-0.0.1-SNAPSHOT.jar
   
 Your output should be something like the following
 
 
-    Starting a Mini Accumulo Cluster: instanceName: smac with rootPassword: secret
-    Temp dir is: /var/folders/cd/l8dpphgn3j1gfpr2gs6yb9vjjpd1pt/T/1473438202535-0
-    Zookeeper is: localhost:2181
-    Monitor running at: 0.0.0.0:56198
+    Starting a Mini Accumulo Cluster:
+    InstanceName:       smac
+    Root user password: secret
+    Temp dir is:        /var/folders/2y/n9lzqm2x10lfxqm9n40xvfvw0000gn/T/1473862620200-0
+    Zookeeper is:       localhost:2181
+    Monitor:            http://localhost:52922
+
     Starting a shell
     
     Shell - Apache Accumulo Interactive Shell
     - 
-    - version: 1.8.0
+    - version: 1.6.6
     - instance name: smac
     - instance id: 02376280-2881-4c17-9091-aa23b8ee1238
     - 
