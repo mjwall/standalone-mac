@@ -12,7 +12,7 @@ import org.apache.zookeeper.KeeperException;
 import org.apache.accumulo.core.client.Instance;
 import org.apache.accumulo.core.client.ZooKeeperInstance;
 import org.apache.accumulo.core.util.MonitorUtil;
-import org.apache.accumulo.core.util.shell.Shell;
+import org.apache.accumulo.shell.Shell;
 import org.apache.accumulo.minicluster.impl.MiniAccumuloClusterImpl;
 import org.apache.accumulo.minicluster.impl.MiniAccumuloConfigImpl;
 import org.apache.accumulo.monitor.Monitor;

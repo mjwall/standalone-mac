@@ -288,60 +288,6 @@
   </build>
   <profiles>
     <profile>
-      <id>1.6</id>
-      <activation>
-        <property>
-          <name>!not16please</name>
-        </property>
-      </activation>
-      <properties>
-        <dep.accumulo.version>1.6.6</dep.accumulo.version>
-        <dep.httpclient.version>4.2.5</dep.httpclient.version>
-        <dep.httpcore.version>4.2.4</dep.httpcore.version>
-        <dep.jackson.version>1.9.13</dep.jackson.version>
-        <dep.servlet.version>2.5</dep.servlet.version>
-      </properties>
-      <dependencyManagement>
-        <dependencies>
-          <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>${dep.servlet.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>${dep.httpclient.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpcore</artifactId>
-            <version>${dep.httpcore.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-core-asl</artifactId>
-            <version>${dep.jackson.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-jaxrs</artifactId>
-            <version>${dep.jackson.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>${dep.jackson.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-xc</artifactId>
-            <version>${dep.jackson.version}</version>
-          </dependency>
-        </dependencies>
-      </dependencyManagement>
-    </profile>
-    <profile>
       <id>run</id>
       <activation>
         <property>

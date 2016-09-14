@@ -12,14 +12,14 @@ To build this standalone jar, run the following
 
     mvn clean package
     
-In the target directory, you will see a file named `standalone-1.6.6-mac-shaded-0.0.1-SNAPSHOT.jar`.  That is the 
+In the target directory, you will see a file named `standalone-1.8.0-mac-shaded-0.0.1-SNAPSHOT.jar`.  That is the 
 executable jar, currently at 44M
 
 ## Running
 
 After building the jar, run the following from the project top level directory
 
-    java -jar target/standalone-1.6.6-mac-shaded-0.0.1-SNAPSHOT.jar
+    java -jar target/standalone-1.8.0-mac-shaded-0.0.1-SNAPSHOT.jar
   
 Your output should be something like the following
 
@@ -35,7 +35,7 @@ Your output should be something like the following
     
     Shell - Apache Accumulo Interactive Shell
     - 
-    - version: 1.6.6
+    - version: 1.8.0
     - instance name: smac
     - instance id: 02376280-2881-4c17-9091-aa23b8ee1238
     - 
