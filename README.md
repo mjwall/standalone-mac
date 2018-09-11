@@ -43,19 +43,35 @@ Your output should be something like the following
     - 
     root@smac> exit
 
-#### Couple of things to note here.  
-- The temp dir is printed.  It will be deleted when you exit.  To make it persist
-pass in a `-DtempMiniDir=/some/path` option before the `-jar` command.  You can then vist that directory and
-see all the logs.
+## Config options
+ 
+TODO: add them all
 
-- The monitor port is given, 53541 in this example.  You should be able to hit http://localhost:53541 and see the
-monitor
+### tempMiniDir -  temp directory used by the SMAC
 
-#### extraScript
+It will be deleted when you exit.  To make it persist pass in a `-DtempMiniDir=/some/path` option before the
+ `-jar` command.  You can then vist that directory and see all the logs.
 
-Make a shell script and use -DextraScript to point to it.  This script will be run after the cluster starts up
+### initScript - initialization script
+
+Make a shell script and use -DinitScript to point to it.  This script will be run after the cluster starts up
 but before the shell is invoked.  Use the script to do things like add jars to lib/ext or run some other
 initialization stuff.
+
+### setJDWP - set the Java Debug Wire Protocol
+
+This is part of the Mini Accumulo Cluster, and will startup debug ports for each process so you can attach a 
+remote debugger.
+
+To find the port for a process, look at the options it was started with.
+
+    ps -ef | grep '\-Dproc=TabletServer'
+    
+You will see it there.  But you can also the following if you know the pid
+
+    jcmd <pid> VM.command_line
+    
+Look for a string lik '-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=<port>'.  That is the remote debug port
 
 ## Running from maven
 
@@ -65,3 +81,15 @@ You can also run the SMAC from maven with the following
     
 The log directory will be `target/mini`
 
+
+## Running a shell
+
+If you start up the cluster with `-DstartShell=false` you can run a shell and attach to the running instance with
+
+    java -cp target/standalone-*-mac-shaded-*.jar com.mjwall.accumulo.SmacAccumuloShell
+    
+## Running a zookeeper shell
+    
+Sometimes you need to look at zookeeper.  You can do that with
+    
+    java -cp target/standalone-*-mac-shaded-*.jar com.mjwall.accumulo.SmacZookeeperCli

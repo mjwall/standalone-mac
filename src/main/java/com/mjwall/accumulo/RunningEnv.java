@@ -21,7 +21,8 @@ public class RunningEnv {
     public final static String INIT_SCRIPT_PROP         = "INIT_SCRIPT";
     public final static String START_SHELL_PROP         = "START_SHELL";
 
-    public final static Path RUNNING_ENV_FILE = Paths.get(System.getProperty("user.home") + ".smac-running-env");
+    public final static Path RUNNING_ENV_FILE = Paths.get(System.getProperty("user.home") +
+            System.getProperty("file.separator") + ".smac-running-env");
 
     private final String instanceName;
     private final String rootUsername;

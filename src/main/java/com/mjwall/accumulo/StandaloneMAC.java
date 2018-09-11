@@ -57,19 +57,24 @@ public class StandaloneMAC {
         }
       }
 
-      final String rootUsername = System.getProperty("rootUsername", "root");
+      //final String rootUsername = System.getProperty("rootUsername", "root");
       final String rootPassword = System.getProperty("rootPassword", "secret");
       final String instanceName = System.getProperty("instanceName", "smac");
       final int zookeeperPort = Integer.parseInt(System.getProperty("zookeeperPort", "2181"));
 
       MiniAccumuloConfigImpl config = new MiniAccumuloConfigImpl(tempDir, rootPassword);
-      config.setRootUserName(rootUsername);
+      // TODO: make this work
+      //config.setRootUserName(rootUsername);
       config.setInstanceName(instanceName);
       config.setNumTservers(2);
       try (Socket ignored = new Socket("localhost", zookeeperPort)) {
         throw new RuntimeException("Zookeeper can't bind to port already in use: " + zookeeperPort);
       } catch (IOException available) {
         config.setZooKeeperPort(zookeeperPort);
+      }
+      final boolean setJDWP = Boolean.valueOf(System.getProperty("setJDWP", "false"));
+      if (setJDWP) {
+          config.setJDWPEnabled(true);
       }
 
       cluster = new MiniAccumuloClusterImpl(config);
@@ -128,8 +133,9 @@ public class StandaloneMAC {
         SmacAccumuloShell.main(new String[]{});
       } else {
         // TODO: look at Parisi's stop port stuff
-        System.out.println("Backgrounding the Standalone Mini Accumulo Cluster");
+        System.out.println("Not running a shell, Ctrl-C to stop the Standalone Mini Accumulo Cluster");
         Thread.currentThread().join();
+        // TODO: last non deamon thread so the finally is not running here
       }
 
 
@@ -150,6 +156,12 @@ public class StandaloneMAC {
       } catch (IOException | InterruptedException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();
+      }
+      try {
+          System.out.println("Removing " + RunningEnv.RUNNING_ENV_FILE.toAbsolutePath().toString());
+          Files.delete(RunningEnv.RUNNING_ENV_FILE);
+      } catch (IOException e) {
+          e.printStackTrace();
       }
     }
 
