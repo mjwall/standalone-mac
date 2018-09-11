@@ -35,6 +35,8 @@ public class StandaloneMAC {
 
     try {
       String tempMiniDir = System.getProperty("tempMiniDir", null);
+      // not sure this works yet
+      boolean reuseTempMiniDir = Boolean.parseBoolean(System.getProperty("reuseTempMiniDir", "false"));
 
       if (tempMiniDir == null) {
         tempDir = com.google.common.io.Files.createTempDir();
@@ -43,18 +45,25 @@ public class StandaloneMAC {
       } else {
         tempDir = new File(tempMiniDir);
         if (tempDir.exists()) {
-          throw new RuntimeException("tempMiniDir directory must be empty: " + tempMiniDir);
-          // be safer about deleting
-          // recursiveDelete(tempDir.toPath());
+          if (!reuseTempMiniDir) {
+            throw new RuntimeException("tempMiniDir directory must be empty: " + tempMiniDir);
+            // be safer about deleting
+            // recursiveDelete(tempDir.toPath());
+          } else {
+            System.out.println("tempMiniDir existed at " + tempMiniDir + " and reuseTempMiniDir was true");
+          }
+        } else {
+          tempDir.mkdir();
         }
-        tempDir.mkdir();
       }
 
+      final String rootUsername = System.getProperty("rootUsername", "root");
       final String rootPassword = System.getProperty("rootPassword", "secret");
       final String instanceName = System.getProperty("instanceName", "smac");
       final int zookeeperPort = Integer.parseInt(System.getProperty("zookeeperPort", "2181"));
 
       MiniAccumuloConfigImpl config = new MiniAccumuloConfigImpl(tempDir, rootPassword);
+      config.setRootUserName(rootUsername);
       config.setInstanceName(instanceName);
       config.setNumTservers(2);
       try (Socket ignored = new Socket("localhost", zookeeperPort)) {
@@ -85,41 +94,44 @@ public class StandaloneMAC {
         }
       }
 
-      System.out.println("Starting a Mini Accumulo Cluster:");
-      System.out.println("InstanceName:       " + cluster.getInstanceName());
-      System.out.println("Root user password: " + cluster.getConfig().getRootPassword());
-      System.out.println("Temp dir is:        " + cluster.getConfig().getDir());
-      System.out.println("Zookeeper is:       " + cluster.getZooKeepers());
+      String monitorUrl = "";
       if (monitorLocation == null) {
         System.err.println("Monitor:            not started");
       } else {
-        System.out.println("Monitor:            http://localhost:" + monitorLocation.split(":")[1]);
+        monitorUrl = "http://localhost:" + monitorLocation.split(":")[1];
       }
+      String initScript = System.getProperty("initScript", null);
+      boolean startShell = Boolean.valueOf(System.getProperty("startShell", "true"));
 
-      String extraScript = System.getProperty("extraScript", null);
-      if (extraScript != null) {
-        Path script = Paths.get(extraScript);
+      RunningEnv env = new RunningEnv(cluster, reuseTempMiniDir, monitorUrl, initScript, startShell);
+      env.toStdOut();
+      env.writeEnvFile();
+
+      if (initScript != null) {
+        Path script = Paths.get(initScript);
         if (Files.exists(script)) {
           ProcessBuilder pb = new ProcessBuilder(script.toAbsolutePath().toString());
           pb.inheritIO();
-          System.out.println("Running extra script " + extraScript);
+          System.out.println("Running init script " + initScript);
           System.out.println("--------------------");
           Process p = pb.start();
           int exitCode = p.waitFor();
           System.out.println("--------------------");
-          System.out.println("extra script ended with" + exitCode);
+          System.out.println("init script ended with" + exitCode);
         } else {
-          System.err.println("Tried to run the following extra script but it didn't exist: " + extraScript);
+          System.err.println("Tried to run the following init script but it didn't exist: " + initScript);
         }
       }
 
-      System.out.println("Starting a shell");
-      String[] shellArgs = new String[] {"-u", "root", "-p", cluster.getConfig().getRootPassword(), "-zi", cluster.getInstanceName(), "-zh",
-          cluster.getZooKeepers()};
-      Shell shell = new Shell();
-      shell.config(shellArgs);
-      shell.start(); // this is the interactive
-      shell.shutdown();
+      if (startShell) {
+        System.out.println("Your Standalone Mini Accumulo Cluster will stay up until you close the shell");
+        SmacAccumuloShell.main(new String[]{});
+      } else {
+        // TODO: look at Parisi's stop port stuff
+        System.out.println("Backgrounding the Standalone Mini Accumulo Cluster");
+        Thread.currentThread().join();
+      }
+
 
     } catch (IOException | InterruptedException error) {
       System.err.println(error.getMessage());
