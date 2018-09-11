@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 
@@ -92,6 +94,23 @@ public class StandaloneMAC {
         System.err.println("Monitor:            not started");
       } else {
         System.out.println("Monitor:            http://localhost:" + monitorLocation.split(":")[1]);
+      }
+
+      String extraScript = System.getProperty("extraScript", null);
+      if (extraScript != null) {
+        Path script = Paths.get(extraScript);
+        if (Files.exists(script)) {
+          ProcessBuilder pb = new ProcessBuilder(script.toAbsolutePath().toString());
+          pb.inheritIO();
+          System.out.println("Running extra script " + extraScript);
+          System.out.println("--------------------");
+          Process p = pb.start();
+          int exitCode = p.waitFor();
+          System.out.println("--------------------");
+          System.out.println("extra script ended with" + exitCode);
+        } else {
+          System.err.println("Tried to run the following extra script but it didn't exist: " + extraScript);
+        }
       }
 
       System.out.println("Starting a shell");

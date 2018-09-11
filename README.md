@@ -51,6 +51,12 @@ see all the logs.
 - The monitor port is given, 53541 in this example.  You should be able to hit http://localhost:53541 and see the
 monitor
 
+#### extraScript
+
+Make a shell script and use -DextraScript to point to it.  This script will be run after the cluster starts up
+but before the shell is invoked.  Use the script to do things like add jars to lib/ext or run some other
+initialization stuff.
+
 ## Running from maven
 
 You can also run the SMAC from maven with the following
