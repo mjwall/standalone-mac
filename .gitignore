@@ -1,8 +1,0 @@
-target/
-.idea
-*.iml
-.classpath
-.project
-.settings/
-dependency-reduced-pom.xml
-.tern-project
